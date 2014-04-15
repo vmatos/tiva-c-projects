@@ -1,0 +1,17 @@
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+
+## objs files
+gcc/
+lib/
+*.a
+*.axf
+*.bin
+
+## compile files
+*.o
+*.d
