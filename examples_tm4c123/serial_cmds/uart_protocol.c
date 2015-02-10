@@ -38,7 +38,7 @@ void UARTParse()
       if( ui8_dataLen + 6 <= RingBufUsed(&g_tBuffRx) )
       {
         // compute CRC16 of everything except 
-        ui16_crc_result = Crc16(0x00, &g_tBuffRx.pui8Buf[g_tBuffRx.ui32ReadIndex], 5);
+        ui16_crc_result = Crc16(0x00, &g_tBuffRx.pui8Buf[g_tBuffRx.ui32ReadIndex], ui8_dataLen + 4);
         // If CRC match
         if(ui16_crc_result == ( (g_tBuffRx.pui8Buf[g_tBuffRx.ui32ReadIndex+4+ui8_dataLen]<<8) + g_tBuffRx.pui8Buf[g_tBuffRx.ui32ReadIndex+5+ui8_dataLen]) ) 
         {
