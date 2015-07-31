@@ -72,13 +72,13 @@ ${COMPILER}:
 # Rules for building the USB device serial example.
 #
 ${COMPILER}/usb_dev_serial.axf: ${COMPILER}/startup_${COMPILER}.o
-#${COMPILER}/usb_dev_serial.axf: ${COMPILER}/uartstdio.o
 ${COMPILER}/usb_dev_serial.axf: ${COMPILER}/usb_dev_serial.o
 ${COMPILER}/usb_dev_serial.axf: ${COMPILER}/usb_serial_structs.o
-#${COMPILER}/usb_dev_serial.axf: ${COMPILER}/ustdlib.o
 ${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/usblib/${COMPILER}/libusb.a
 ${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/driverlib/${COMPILER}/libdriver.a
-${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/utils/${COMPILER}/libutils.a
+#${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/utils/${COMPILER}/libutils.a
+${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/utils/uartstdio.o
+${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/utils/ustdlib.o
 ${COMPILER}/usb_dev_serial.axf: usb_dev_serial.ld
 SCATTERgcc_usb_dev_serial=usb_dev_serial.ld
 ENTRY_usb_dev_serial=ResetISR

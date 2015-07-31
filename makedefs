@@ -111,6 +111,26 @@ CFLAGS=-mthumb             \
        -c
 
 #
+# The flags passed to the compiler.
+#
+# -fno-rtti - whats this for?
+# -fno-exceptions - used otherwise it will throw undefined reference to 'abort' and 'memcpy' - oh, no C++ exceptions!
+#  -fno-unwind-tables - and this?
+# more info: https://gcc.gnu.org/onlinedocs/gcc-4.4.4/gcc/C_002b_002b-Dialect-Options.html
+CXXFLAGS=-mthumb           \
+       ${CPU}              \
+       ${FPU}              \
+       -ffunction-sections \
+       -fdata-sections     \
+       -MD                 \
+       -Wall               \
+       -pedantic           \
+       -DPART_${PART}      \
+       -fno-exceptions     \
+       -fno-rtti           \
+       -c
+
+#
 # The command for calling the library archiver.
 #
 AR=${PREFIX}-ar
@@ -141,6 +161,16 @@ LIBC:=${shell ${CC} ${CFLAGS} -print-file-name=libc.a}
 LIBM:=${shell ${CC} ${CFLAGS} -print-file-name=libm.a}
 
 #
+# Get the location of libstdc++.a from the GCC front-end.
+#
+LIBCXX:=${shell ${CC} ${CXXFLAGS} -print-file-name=libstdc++.a}
+
+#
+# Get the location of libstdc++_nano.a from the GCC front-end.
+#
+#LIBCXX:=${shell ${CC} ${CXXFLAGS} -print-file-name=libstdc++_nano.a}
+
+#
 # The command for extracting images from the linked executables.
 #
 OBJCOPY=${PREFIX}-objcopy
@@ -151,8 +181,10 @@ OBJCOPY=${PREFIX}-objcopy
 #
 ifdef DEBUG
 CFLAGS+=-g -D DEBUG -O0
+CXXFLAGS+=-g -D DEBUG -O0
 else
 CFLAGS+=-Os
+CXXFLAGS+=-Os
 endif
 
 
@@ -160,12 +192,32 @@ endif
 # Add the tool specific CFLAGS.
 #
 CFLAGS+=${CFLAGSgcc}
+CXXFLAGS+=${CFLAGSgcc}
 
 #
 # Add the include file paths to AFLAGS and CFLAGS.
 #
 AFLAGS+=${patsubst %,-I%,${subst :, ,${IPATH}}}
 CFLAGS+=${patsubst %,-I%,${subst :, ,${IPATH}}}
+CXXFLAGS+=${patsubst %,-I%,${subst :, ,${IPATH}}}
+
+#
+# The rule for building the object file from each CPP source file.
+#
+${COMPILER}${SUFFIX}/%.o: %.cpp
+	@if [ 'x${VERBOSE}' = x ];                            \
+	 then                                                 \
+	     echo "  CC    ${<}";                             \
+	 else                                                 \
+	     echo ${CC} ${CXXFLAGS} -D${COMPILER} -o ${@} ${<}; \
+	 fi
+	@${CC} ${CXXFLAGS} -D${COMPILER} -o ${@} ${<}
+ifneq ($(findstring CYGWIN, ${os}), )
+	@if [ -e ${@:.o=.d} ];                                   \
+	then                                                     \
+		sed -i -r 's/ ([A-Za-z]):/ \/cygdrive\/\1/g' ${@:.o=.d} ; \
+	fi
+endif
 
 #
 # The rule for building the object file from each C source file.
@@ -233,13 +285,13 @@ ${COMPILER}${SUFFIX}/%.axf:
 	          --entry ${ENTRY_${notdir ${@:.axf=}}}                       \
 	          ${LDFLAGSgcc_${notdir ${@:.axf=}}}                          \
 	          ${LDFLAGS} -o ${@} $(filter %.o %.a, ${^})                  \
-	          '${LIBM}' '${LIBC}' '${LIBGCC}';                            \
+	          '${LIBM}' '${LIBC}' '${LIBCXX}' '${LIBGCC}';                \
 	 fi;                                                                  \
 	${LD} -T $${ldname}                                                   \
 	      --entry ${ENTRY_${notdir ${@:.axf=}}}                           \
 	      ${LDFLAGSgcc_${notdir ${@:.axf=}}}                              \
 	      ${LDFLAGS} -o ${@} $(filter %.o %.a, ${^})                      \
-	      '${LIBM}' '${LIBC}' '${LIBGCC}'
+	      '${LIBM}' '${LIBC}' '${LIBCXX}' '${LIBGCC}'
 	@${OBJCOPY} -O binary ${@} ${@:.axf=.bin}
 endif
 
