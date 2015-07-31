@@ -207,7 +207,7 @@ CXXFLAGS+=${patsubst %,-I%,${subst :, ,${IPATH}}}
 ${COMPILER}${SUFFIX}/%.o: %.cpp
 	@if [ 'x${VERBOSE}' = x ];                            \
 	 then                                                 \
-	     echo "  CC    ${<}";                             \
+	     echo "  CXX    ${<}";                             \
 	 else                                                 \
 	     echo ${CC} ${CXXFLAGS} -D${COMPILER} -o ${@} ${<}; \
 	 fi
