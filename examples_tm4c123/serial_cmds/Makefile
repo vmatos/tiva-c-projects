@@ -1,6 +1,6 @@
 #******************************************************************************
 #
-# Makefile - Rules for building the USB device serial example.
+# Makefile - Rules for building the uart_echo example.
 #
 # Copyright (c) 2012-2014 Texas Instruments Incorporated.  All rights reserved.
 # Software License Agreement
@@ -26,7 +26,6 @@
 # Defines the part type that this project uses.
 #
 PART=TM4C123GH6PM
-VERBOSE=1
 
 #
 # The base directory for TivaWare.
@@ -44,23 +43,24 @@ include ${ROOT}/makedefs
 TIVAWARE=${ROOT}/../TivaWare
 IPATH=${TIVAWARE}
 
-#
-# Where to find source files that do not live in this directory.
-#
-#VPATH=${TIVAWARE}/drivers
-#VPATH+=${TIVAWARE}/utils
 
 #
-# The default rule, which causes the USB device serial example to be built.
+# The default rule, which causes the program to be built.
 #
 all: ${COMPILER}
-all: ${COMPILER}/usb_dev_serial.axf
+all: ${COMPILER}/serial_cmds.axf
 
 #
 # The rule to clean out all the build products.
 #
 clean:
 	@rm -rf ${COMPILER} ${wildcard *~}
+	
+#
+# The rule to flash
+#
+flash:
+	@lm4flash ${COMPILER}/serial_cmds.bin
 
 #
 # The rule to create the target directory.
@@ -69,20 +69,18 @@ ${COMPILER}:
 	@mkdir -p ${COMPILER}
 
 #
-# Rules for building the USB device serial example.
+# Rules for building the example.
 #
-${COMPILER}/usb_dev_serial.axf: ${COMPILER}/startup_${COMPILER}.o
-${COMPILER}/usb_dev_serial.axf: ${COMPILER}/usb_dev_serial.o
-${COMPILER}/usb_dev_serial.axf: ${COMPILER}/usb_serial_structs.o
-${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/usblib/${COMPILER}/libusb.a
-${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/driverlib/${COMPILER}/libdriver.a
-#${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/utils/${COMPILER}/libutils.a
-${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/utils/uartstdio.o
-${COMPILER}/usb_dev_serial.axf: ${TIVAWARE}/utils/ustdlib.o
-${COMPILER}/usb_dev_serial.axf: usb_dev_serial.ld
-SCATTERgcc_usb_dev_serial=usb_dev_serial.ld
-ENTRY_usb_dev_serial=ResetISR
-CFLAGSgcc=-DTARGET_IS_TM4C123_RB1 -DUART_BUFFERED
+${COMPILER}/serial_cmds.axf: ${COMPILER}/startup_${COMPILER}.o
+${COMPILER}/serial_cmds.axf: ${COMPILER}/main.o
+${COMPILER}/serial_cmds.axf: ${COMPILER}/uart_protocol.o
+${COMPILER}/serial_cmds.axf: ${TIVAWARE}/driverlib/${COMPILER}/libdriver.a
+${COMPILER}/serial_cmds.axf: ${TIVAWARE}/utils/ringbuf.o
+${COMPILER}/serial_cmds.axf: ${TIVAWARE}/utils/uartstdio.o
+${COMPILER}/serial_cmds.axf: TM4C123GH6PM.ld
+SCATTERgcc_serial_cmds=TM4C123GH6PM.ld
+ENTRY_serial_cmds=ResetISR
+CFLAGSgcc=-DTARGET_IS_TM4C123_RB1
 
 #
 # Include the automatically generated dependency files.
