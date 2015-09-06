@@ -163,7 +163,7 @@ LIBM:=${shell ${CC} ${CFLAGS} -print-file-name=libm.a}
 #
 # Get the location of libstdc++.a from the GCC front-end.
 #
-LIBCXX:=${shell ${CC} ${CXXFLAGS} -print-file-name=libstdc++.a}
+#LIBCXX:=${shell ${CC} ${CXXFLAGS} -print-file-name=libstdc++.a}
 
 #
 # Get the location of libstdc++_nano.a from the GCC front-end.
@@ -285,13 +285,13 @@ ${COMPILER}${SUFFIX}/%.axf:
 	          --entry ${ENTRY_${notdir ${@:.axf=}}}                       \
 	          ${LDFLAGSgcc_${notdir ${@:.axf=}}}                          \
 	          ${LDFLAGS} -o ${@} $(filter %.o %.a, ${^})                  \
-	          '${LIBM}' '${LIBC}' '${LIBCXX}' '${LIBGCC}';                \
+	          '${LIBM}' '${LIBC}' '${LIBGCC}';                \
 	 fi;                                                                  \
 	${LD} -T $${ldname}                                                   \
 	      --entry ${ENTRY_${notdir ${@:.axf=}}}                           \
 	      ${LDFLAGSgcc_${notdir ${@:.axf=}}}                              \
 	      ${LDFLAGS} -o ${@} $(filter %.o %.a, ${^})                      \
-	      '${LIBM}' '${LIBC}' '${LIBCXX}' '${LIBGCC}'
+	      '${LIBM}' '${LIBC}' '${LIBGCC}'
 	@${OBJCOPY} -O binary ${@} ${@:.axf=.bin}
 endif
 
