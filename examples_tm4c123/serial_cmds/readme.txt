@@ -1,3 +1,7 @@
+Don't use!!!
+Just for reference
+
+
 Small working example of a command parser through serial port.
 Frame packet layout:
 
