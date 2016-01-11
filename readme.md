@@ -47,3 +47,12 @@ Directory structure:
 
 * Better instructions
 * Descriptions for each individual project
+
+# Important!!!!
+Tivaware BUG regarding USB ring buffer.
+Fix on file: usblib/usbbuffer.c
+
+    USBBufferInfoGet(const tUSBBuffer *psBuffer, tUSBRingBufObject *psRingBuf)
+    (...)
+    -    psRingBuf->ui32Size = psBufVars->sRingBuf.ui32ReadIndex;
+    +    psRingBuf->ui32Size = psBufVars->sRingBuf.ui32Size;
