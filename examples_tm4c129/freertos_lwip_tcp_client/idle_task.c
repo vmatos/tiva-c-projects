@@ -184,36 +184,36 @@ vApplicationIdleHook(void)
     //
     // Get the number of seconds that the application has been running.
     //
-    ui32Temp = xTaskGetTickCount() / (1000 / portTICK_RATE_MS);
+    //~ ui32Temp = xTaskGetTickCount() / (1000 / portTICK_RATE_MS);
 
     //
     // See if the number of seconds has changed.
     //
-    if(ui32Temp != g_ui32Seconds)
-    {
-        //
-        // Update the local copy of the run time.
-        //
-        g_ui32Seconds = ui32Temp;
-
-        //
-        // Convert the number of seconds into a text string.
-        //
-        g_pcTimeString[0] = '0' + ((ui32Temp / 36000) % 10);
-        g_pcTimeString[1] = '0' + ((ui32Temp / 3600) % 10);
-        g_pcTimeString[2] = ':';
-        g_pcTimeString[3] = '0' + ((ui32Temp / 600) % 6);
-        g_pcTimeString[4] = '0' + ((ui32Temp / 60) % 10);
-        g_pcTimeString[5] = ':';
-        g_pcTimeString[6] = '0' + ((ui32Temp / 10) % 6);
-        g_pcTimeString[7] = '0' + (ui32Temp % 10);
-        g_pcTimeString[8] = '\0';
-
-        //
-        // Have the display task write this string onto the display.
-        //
-        UARTprintf("%s\n", g_pcTimeString);
-    }
+    //~ if(ui32Temp != g_ui32Seconds)
+    //~ {
+        //~ //
+        //~ // Update the local copy of the run time.
+        //~ //
+        //~ g_ui32Seconds = ui32Temp;
+//~ 
+        //~ //
+        //~ // Convert the number of seconds into a text string.
+        //~ //
+        //~ g_pcTimeString[0] = '0' + ((ui32Temp / 36000) % 10);
+        //~ g_pcTimeString[1] = '0' + ((ui32Temp / 3600) % 10);
+        //~ g_pcTimeString[2] = ':';
+        //~ g_pcTimeString[3] = '0' + ((ui32Temp / 600) % 6);
+        //~ g_pcTimeString[4] = '0' + ((ui32Temp / 60) % 10);
+        //~ g_pcTimeString[5] = ':';
+        //~ g_pcTimeString[6] = '0' + ((ui32Temp / 10) % 6);
+        //~ g_pcTimeString[7] = '0' + (ui32Temp % 10);
+        //~ g_pcTimeString[8] = '\0';
+//~ 
+        //~ //
+        //~ // Have the display task write this string onto the display.
+        //~ //
+        //~ UARTprintf("%s\n", g_pcTimeString);
+    //~ }
 
     //
     // Get the current IP address.
@@ -239,33 +239,33 @@ vApplicationIdleHook(void)
     //
     // See if the number of transmitted packets has changed.
     //
-    if(lwip_stats.link.xmit != g_ui32TXPackets)
-    {
-        //
-        // Save the number of transmitted packets.
-        //
-        ui32Temp = g_ui32TXPackets = lwip_stats.link.xmit;
-
-        //
-        // Update the display of transmitted packets.
-        //
-        UARTprintf("Tx: %d\n", ui32Temp);
-    }
+    //~ if(lwip_stats.link.xmit != g_ui32TXPackets)
+    //~ {
+        //~ //
+        //~ // Save the number of transmitted packets.
+        //~ //
+        //~ ui32Temp = g_ui32TXPackets = lwip_stats.link.xmit;
+//~ 
+        //~ //
+        //~ // Update the display of transmitted packets.
+        //~ //
+        //~ UARTprintf("Tx: %d\n", ui32Temp);
+    //~ }
 
     //
     // See if the number of received packets has changed.
     //
-    if(lwip_stats.link.recv != g_ui32RXPackets)
-    {
-        //
-        // Save the number of received packets.
-        //
-        ui32Temp = g_ui32RXPackets = lwip_stats.link.recv;
-
-        //
-        // Update the display of received packets.
-        //
-        UARTprintf("Rx: %d\n", ui32Temp);
-    }
+    //~ if(lwip_stats.link.recv != g_ui32RXPackets)
+    //~ {
+        //~ //
+        //~ // Save the number of received packets.
+        //~ //
+        //~ ui32Temp = g_ui32RXPackets = lwip_stats.link.recv;
+//~ 
+        //~ //
+        //~ // Update the display of received packets.
+        //~ //
+        //~ UARTprintf("Rx: %d\n", ui32Temp);
+    //~ }
 
 }
