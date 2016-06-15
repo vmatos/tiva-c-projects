@@ -2,7 +2,7 @@
 //
 // usb_serial_structs.c - Data structures defining this CDC USB device.
 //
-// Copyright (c) 2012-2014 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2012-2015 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 // Texas Instruments (TI) is supplying this software for use solely and
@@ -18,7 +18,7 @@
 // CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
 // DAMAGES, FOR ANY REASON WHATSOEVER.
 // 
-// This is part of revision 2.1.0.12573 of the EK-TM4C123GXL Firmware Package.
+// This is part of revision 2.1.2.111 of the EK-TM4C123GXL Firmware Package.
 //
 //*****************************************************************************
 
@@ -155,9 +155,6 @@ uint32_t ControlHandler(void *pvCBData, uint32_t ui32Event,
 // function and the callback data set to our CDC instance structure.
 //
 //*****************************************************************************
-extern const tUSBBuffer g_sTxBuffer;
-extern const tUSBBuffer g_sRxBuffer;
-
 tUSBDCDCDevice g_sCDCDevice =
 {
     USB_VID_TI_1CBE,
@@ -180,8 +177,7 @@ tUSBDCDCDevice g_sCDCDevice =
 //
 //*****************************************************************************
 uint8_t g_pui8USBRxBuffer[UART_BUFFER_SIZE];
-uint8_t g_pui8RxBufferWorkspace[USB_BUFFER_WORKSPACE_SIZE];
-const tUSBBuffer g_sRxBuffer =
+tUSBBuffer g_sRxBuffer =
 {
     false,                          // This is a receive buffer.
     RxHandler,                      // pfnCallback
@@ -191,7 +187,6 @@ const tUSBBuffer g_sRxBuffer =
     (void *)&g_sCDCDevice,          // pvHandle
     g_pui8USBRxBuffer,              // pui8Buffer
     UART_BUFFER_SIZE,               // ui32BufferSize
-    g_pui8RxBufferWorkspace         // pvWorkspace
 };
 
 //*****************************************************************************
@@ -200,8 +195,7 @@ const tUSBBuffer g_sRxBuffer =
 //
 //*****************************************************************************
 uint8_t g_pui8USBTxBuffer[UART_BUFFER_SIZE];
-uint8_t g_pui8TxBufferWorkspace[USB_BUFFER_WORKSPACE_SIZE];
-const tUSBBuffer g_sTxBuffer =
+tUSBBuffer g_sTxBuffer =
 {
     true,                           // This is a transmit buffer.
     TxHandler,                      // pfnCallback
@@ -211,5 +205,4 @@ const tUSBBuffer g_sTxBuffer =
     (void *)&g_sCDCDevice,          // pvHandle
     g_pui8USBTxBuffer,              // pui8Buffer
     UART_BUFFER_SIZE,               // ui32BufferSize
-    g_pui8TxBufferWorkspace         // pvWorkspace
 };

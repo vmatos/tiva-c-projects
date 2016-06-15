@@ -2,7 +2,7 @@
 //
 // startup_gcc.c - Startup code for use with GNU tools.
 //
-// Copyright (c) 2013-2014 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2013-2015 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 // Texas Instruments (TI) is supplying this software for use solely and
@@ -18,7 +18,7 @@
 // CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
 // DAMAGES, FOR ANY REASON WHATSOEVER.
 // 
-// This is part of revision 2.1.0.12573 of the EK-TM4C1294XL Firmware Package.
+// This is part of revision 2.1.2.111 of the EK-TM4C1294XL Firmware Package.
 //
 //*****************************************************************************
 
@@ -205,7 +205,7 @@ void (* const g_pfnVectors[])(void) =
 // for the "data" segment resides immediately following the "text" segment.
 //
 //*****************************************************************************
-extern uint32_t _etext;
+extern uint32_t _ldata;
 extern uint32_t _data;
 extern uint32_t _edata;
 extern uint32_t _bss;
@@ -229,7 +229,7 @@ ResetISR(void)
     //
     // Copy the data segment initializers from flash to SRAM.
     //
-    pui32Src = &_etext;
+    pui32Src = &_ldata;
     for(pui32Dest = &_data; pui32Dest < &_edata; )
     {
         *pui32Dest++ = *pui32Src++;

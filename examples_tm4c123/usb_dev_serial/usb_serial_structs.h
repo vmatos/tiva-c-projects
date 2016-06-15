@@ -2,7 +2,7 @@
 //
 // usb_serial_structs.h - Data structures defining this USB CDC device.
 //
-// Copyright (c) 2012-2014 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2012-2015 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 // Texas Instruments (TI) is supplying this software for use solely and
@@ -18,7 +18,7 @@
 // CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
 // DAMAGES, FOR ANY REASON WHATSOEVER.
 // 
-// This is part of revision 2.1.0.12573 of the EK-TM4C123GXL Firmware Package.
+// This is part of revision 2.1.2.111 of the EK-TM4C123GXL Firmware Package.
 //
 //*****************************************************************************
 
@@ -40,8 +40,8 @@ extern uint32_t RxHandler(void *pvCBData, uint32_t ui32Event,
 extern uint32_t TxHandler(void *pvi32CBData, uint32_t ui32Event,
                           uint32_t ui32MsgValue, void *pvMsgData);
 
-extern const tUSBBuffer g_sTxBuffer;
-extern const tUSBBuffer g_sRxBuffer;
+extern tUSBBuffer g_sTxBuffer;
+extern tUSBBuffer g_sRxBuffer;
 extern tUSBDCDCDevice g_sCDCDevice;
 extern uint8_t g_pui8USBTxBuffer[];
 extern uint8_t g_pui8USBRxBuffer[];

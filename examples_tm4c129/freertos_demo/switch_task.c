@@ -162,7 +162,7 @@ SwitchTaskInit(void)
     //
     // Create the switch task.
     //
-    if(xTaskCreate(SwitchTask, (signed portCHAR *)"Switch",
+    if(xTaskCreate(SwitchTask, (const portCHAR *)"Switch",
                    SWITCHTASKSTACKSIZE, NULL, tskIDLE_PRIORITY +
                    PRIORITY_SWITCH_TASK, NULL) != pdTRUE)
     {

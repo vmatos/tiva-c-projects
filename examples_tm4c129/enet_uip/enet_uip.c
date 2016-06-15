@@ -2,7 +2,7 @@
 //
 // enet_uip.c - Sample WebServer Application for Ethernet Demo
 //
-// Copyright (c) 2013-2014 Texas Instruments Incorporated.  All rights reserved.
+// Copyright (c) 2013-2015 Texas Instruments Incorporated.  All rights reserved.
 // Software License Agreement
 // 
 // Texas Instruments (TI) is supplying this software for use solely and
@@ -18,7 +18,7 @@
 // CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
 // DAMAGES, FOR ANY REASON WHATSOEVER.
 // 
-// This is part of revision 2.1.0.12573 of the EK-TM4C1294XL Firmware Package.
+// This is part of revision 2.1.2.111 of the EK-TM4C1294XL Firmware Package.
 //
 //*****************************************************************************
 
@@ -144,7 +144,7 @@ volatile uint32_t g_ui32TickCounter = 0;
 // instead of DHCP.
 //
 //*****************************************************************************
-#define USE_STATIC_IP
+//#define USE_STATIC_IP
 
 #ifndef DEFAULT_IPADDR0
 #define DEFAULT_IPADDR0         192
@@ -271,8 +271,8 @@ EthernetIntHandler(void)
     //
     // Read and Clear the interrupt.
     //
-    ui32Temp = ROM_EMACIntStatus(EMAC0_BASE, true);
-    ROM_EMACIntClear(EMAC0_BASE, ui32Temp);
+    ui32Temp = MAP_EMACIntStatus(EMAC0_BASE, true);
+    MAP_EMACIntClear(EMAC0_BASE, ui32Temp);
 
     //
     // Check to see if an RX Interrupt has occurred.
@@ -469,7 +469,7 @@ PacketTransmit(uint32_t ui32Base, uint8_t *pui8Buf, int32_t i32BufLen)
     //
     // Tell the DMA to reacquire the descriptor now that we've filled it in.
     //
-    ROM_EMACTxDMAPollDemand(EMAC0_BASE);
+    MAP_EMACTxDMAPollDemand(EMAC0_BASE);
 
     //
     // Return the number of bytes sent.
@@ -530,8 +530,8 @@ InitDescriptors(uint32_t ui32Base)
     //
     // Set the descriptor pointers in the hardware.
     //
-    ROM_EMACRxDMADescriptorListSet(ui32Base, g_psRxDescriptor);
-    ROM_EMACTxDMADescriptorListSet(ui32Base, g_psTxDescriptor);
+    MAP_EMACRxDMADescriptorListSet(ui32Base, g_psRxDescriptor);
+    MAP_EMACTxDMADescriptorListSet(ui32Base, g_psTxDescriptor);
 
     //
     // Start from the beginning of both descriptor chains.  We actually set
@@ -585,7 +585,7 @@ main(void)
     //
     // Read the MAC address from the user registers.
     //
-    ROM_FlashUserGet(&ui32User0, &ui32User1);
+    MAP_FlashUserGet(&ui32User0, &ui32User1);
     if((ui32User0 == 0xffffffff) || (ui32User1 == 0xffffffff))
     {
         //
@@ -613,23 +613,23 @@ main(void)
     //
     // Configure SysTick for a periodic interrupt.
     //
-    ROM_SysTickPeriodSet(ui32SysClock / SYSTICKHZ);
-    ROM_SysTickEnable();
-    ROM_SysTickIntEnable();
+    MAP_SysTickPeriodSet(ui32SysClock / SYSTICKHZ);
+    MAP_SysTickEnable();
+    MAP_SysTickIntEnable();
 
     //
     // Enable and reset the Ethernet modules.
     //
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_EMAC0);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_EPHY0);
-    ROM_SysCtlPeripheralReset(SYSCTL_PERIPH_EMAC0);
-    ROM_SysCtlPeripheralReset(SYSCTL_PERIPH_EPHY0);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_EMAC0);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_EPHY0);
+    MAP_SysCtlPeripheralReset(SYSCTL_PERIPH_EMAC0);
+    MAP_SysCtlPeripheralReset(SYSCTL_PERIPH_EPHY0);
 
     //
     // Wait for the MAC to be ready.
     //
     UpdateStatus("Waiting for MAC to be ready...");
-    while(!ROM_SysCtlPeripheralReady(SYSCTL_PERIPH_EMAC0))
+    while(!MAP_SysCtlPeripheralReady(SYSCTL_PERIPH_EMAC0))
     {
     }
 
@@ -642,19 +642,19 @@ main(void)
     //
     // Reset the MAC.
     //
-    ROM_EMACReset(EMAC0_BASE);
+    MAP_EMACReset(EMAC0_BASE);
 
     //
     // Initialize the MAC and set the DMA mode.
     //
-    ROM_EMACInit(EMAC0_BASE, ui32SysClock,
+    MAP_EMACInit(EMAC0_BASE, ui32SysClock,
                  EMAC_BCONFIG_MIXED_BURST | EMAC_BCONFIG_PRIORITY_FIXED, 4, 4,
                  0);
 
     //
     // Set MAC configuration options.
     //
-    ROM_EMACConfigSet(EMAC0_BASE,
+    MAP_EMACConfigSet(EMAC0_BASE,
                       (EMAC_CONFIG_FULL_DUPLEX | EMAC_CONFIG_CHECKSUM_OFFLOAD |
                        EMAC_CONFIG_7BYTE_PREAMBLE | EMAC_CONFIG_IF_GAP_96BITS |
                        EMAC_CONFIG_USE_MACADDR0 |
@@ -673,13 +673,13 @@ main(void)
     //
     // Program the hardware with its MAC address (for filtering).
     //
-    ROM_EMACAddrSet(EMAC0_BASE, 0, (uint8_t *)&sTempAddr);
+    MAP_EMACAddrSet(EMAC0_BASE, 0, (uint8_t *)&sTempAddr);
 
     //
     // Wait for the link to become active.
     //
     UpdateStatus("Waiting for Link.");
-    while((ROM_EMACPHYRead(EMAC0_BASE, 0, EPHY_BMSR) &
+    while((MAP_EMACPHYRead(EMAC0_BASE, 0, EPHY_BMSR) &
            EPHY_BMSR_LINKSTAT) == 0)
     {
     }
@@ -690,14 +690,14 @@ main(void)
     // Set MAC filtering options.  We receive all broadcast and multicast
     // packets along with those addressed specifically for us.
     //
-    ROM_EMACFrameFilterSet(EMAC0_BASE, (EMAC_FRMFILTER_SADDR |
+    MAP_EMACFrameFilterSet(EMAC0_BASE, (EMAC_FRMFILTER_SADDR |
                                         EMAC_FRMFILTER_PASS_MULTICAST |
                                         EMAC_FRMFILTER_PASS_NO_CTRL));
 
     //
     // Clear any pending interrupts.
     //
-    ROM_EMACIntClear(EMAC0_BASE, EMACIntStatus(EMAC0_BASE, false));
+    MAP_EMACIntClear(EMAC0_BASE, EMACIntStatus(EMAC0_BASE, false));
 
     //
     // Initialize the uIP TCP/IP stack.
@@ -727,18 +727,18 @@ main(void)
     //
     // Enable the Ethernet MAC transmitter and receiver.
     //
-    ROM_EMACTxEnable(EMAC0_BASE);
-    ROM_EMACRxEnable(EMAC0_BASE);
+    MAP_EMACTxEnable(EMAC0_BASE);
+    MAP_EMACRxEnable(EMAC0_BASE);
 
     //
     // Enable the Ethernet interrupt.
     //
-    ROM_IntEnable(INT_EMAC0);
+    MAP_IntEnable(INT_EMAC0);
 
     //
     // Enable the Ethernet RX Packet interrupt source.
     //
-    ROM_EMACIntEnable(EMAC0_BASE, EMAC_INT_RECEIVE);
+    MAP_EMACIntEnable(EMAC0_BASE, EMAC_INT_RECEIVE);
 
     //
     // Mark the first receive descriptor as available to the DMA to start

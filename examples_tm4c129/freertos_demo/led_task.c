@@ -214,7 +214,7 @@ LEDTaskInit(void)
     //
     // Create the LED task.
     //
-    if(xTaskCreate(LEDTask, (signed portCHAR *)"LED", LEDTASKSTACKSIZE, NULL,
+    if(xTaskCreate(LEDTask, (const portCHAR *)"LED", LEDTASKSTACKSIZE, NULL,
                    tskIDLE_PRIORITY + PRIORITY_LED_TASK, NULL) != pdTRUE)
     {
         return(1);

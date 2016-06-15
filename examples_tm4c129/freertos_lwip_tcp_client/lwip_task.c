@@ -193,7 +193,7 @@ lwIPTaskInit(void)
     //
     // Connect to server
     //
-    xTaskCreate(TCPConnect, (signed portCHAR *)"TCPconnect", 256, 0, tskIDLE_PRIORITY + 1, 0);
+    xTaskCreate(TCPConnect, (const portCHAR *)"TCPconnect", 256, 0, tskIDLE_PRIORITY + 1, 0);
 
     //
     // Success.
