@@ -15,7 +15,7 @@ set(CMAKE_OBJDUMP ${TOOLCHAIN_PREFIX}-objdump)
 enable_language(ASM)
 
 set(CPU "-mcpu=cortex-m4")
-set(FPU "-mfpu=fpv4-sp-d16 -mfloat-abi=softfp")
+set(FPU "-mfpu=fpv4-sp-d16 -mfloat-abi=hard")
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -mthumb ${CPU}  ${FPU} -MD")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mthumb ${CPU} ${FPU} -std=gnu99 -Os -ffunction-sections -fdata-sections -MD -Wall -pedantic")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mthumb ${CPU} ${FPU}  -Os -ffunction-sections -fdata-sections -MD -Wall -pedantic -fno-exceptions -fno-rtti")
