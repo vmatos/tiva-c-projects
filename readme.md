@@ -1,5 +1,5 @@
 ### Uses the TivaWare library from TI:
-SW-TM4C: TivaWare for C Series Software (Complete), 2.1.2.111
+SW-TM4C: TivaWare for C Series Software (Complete), 2.2.0.295
 
 ## How to set up the system:
 Needed:
@@ -14,14 +14,18 @@ This template gets around this issue by creating symbolic links to these files. 
 
 Some straight instructions: `http://www.strainu.ro/programming/embedded/programming-for-the-tiva-c-launchpad-on-linux/`
 
-1. Get ARM GCC toolchain:
-`https://launchpad.net/~team-gcc-arm-embedded`
+1. Get GCC's ARM toolchain:
+
+~~https://launchpad.net/~team-gcc-arm-embedded~~
+
+ARM's toolchain has moved from launchpad into: `https://developer.arm.com/open-source/gnu-toolchain/gnu-rm`.
+
+Using GCC's toolchain in Ubuntu 20.04:
 
 ```
-   sudo add-apt-repository ppa:team-gcc-arm-embedded/ppa
-   sudo apt-get update
-   sudo apt-get install gcc-arm-embedded
+   sudo apt install gcc-arm-none-eabi
 ```
+
 
 2. TivaWare:
 Google SW-TM4C: TivaWare for C Series Software
