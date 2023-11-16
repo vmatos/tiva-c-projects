@@ -121,7 +121,7 @@ ${COMPILER}/freertos_lwip.axf: ${TIVAWARE}/driverlib/${COMPILER}/libdriver.a
 ${COMPILER}/freertos_lwip.axf: freertos_lwip.ld
 SCATTERgcc_freertos_lwip=freertos_lwip.ld
 ENTRY_freertos_lwip=ResetISR
-CFLAGSgcc=-DTARGET_IS_TM4C129_RA0 -DSNOWFLAKE
+CFLAGSgcc=-DTARGET_IS_TM4C129_RA0 -DSNOWFLAKE -DEK_TM4C129_BP1
 
 #
 # Include the automatically generated dependency files.

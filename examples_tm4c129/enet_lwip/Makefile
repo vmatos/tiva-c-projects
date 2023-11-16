@@ -103,7 +103,7 @@ ${COMPILER}/enet_lwip.axf: ${TIVAWARE}/driverlib/${COMPILER}/libdriver.a
 ${COMPILER}/enet_lwip.axf: enet_lwip.ld
 SCATTERgcc_enet_lwip=enet_lwip.ld
 ENTRY_enet_lwip=ResetISR
-CFLAGSgcc=-DTARGET_IS_TM4C129_RA0
+CFLAGSgcc=-DTARGET_IS_TM4C129_RA0 -DEK_TM4C129_BP1
 
 #
 # Include the automatically generated dependency files.
