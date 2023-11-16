@@ -75,11 +75,11 @@ ${COMPILER}:
 ${COMPILER}/${PROJECT_NAME}.axf: ${COMPILER}/startup_${COMPILER}.o
 ${COMPILER}/${PROJECT_NAME}.axf: ${COMPILER}/can_ex.o
 ${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/utils/uartstdio.o
-${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/${COMPILER}/gpio.o
-${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/${COMPILER}/sysctl.o
-${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/${COMPILER}/can.o
-${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/${COMPILER}/uart.o
-${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/${COMPILER}/interrupt.o
+${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/gpio.o
+${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/sysctl.o
+${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/can.o
+${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/uart.o
+${COMPILER}/${PROJECT_NAME}.axf: ${TIVAWARE}/driverlib/interrupt.o
 ${COMPILER}/${PROJECT_NAME}.axf: TM4C123GH6PM.ld
 SCATTERgcc_${PROJECT_NAME}=TM4C123GH6PM.ld
 ENTRY_${PROJECT_NAME}=ResetISR
